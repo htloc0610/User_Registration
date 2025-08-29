@@ -6,8 +6,8 @@ export class AuthToken {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ name: 'user_id', type: 'int', nullable: false })
-  userId: number;
+  @Column({ name: 'user_id', type: 'uuid', nullable: false })
+  userId: string;
 
   @Column({ name: 'access_token', type: 'text', nullable: false })
   accessToken: string;
