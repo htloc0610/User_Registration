@@ -9,7 +9,8 @@ export class SignUpDTO {
     description: 'First name of the user',
     required: true,
     minLength: 2,
-    maxLength: 50
+    maxLength: 50,
+    name: "first_name"
   })
   @MinLength(2, { context: ERRORS.ALEM03 })
   @MaxLength(50, { context: ERRORS.ALEM04 })
@@ -23,7 +24,8 @@ export class SignUpDTO {
     description: 'Last name of the user',
     required: true,
     minLength: 2,
-    maxLength: 50
+    maxLength: 50,
+    name: "last_name"
   })
   @MinLength(2, { context: ERRORS.ALEM03 })
   @MaxLength(50, { context: ERRORS.ALEM04 })
