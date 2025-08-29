@@ -105,4 +105,90 @@ export const AuthDoc = {
         },
       }),
     ),
+
+  // Sign In Endpoint
+  SignInSummary: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: 'User Sign In',
+        description: 'Authenticate user with email and password to get access and refresh tokens',
+      }),
+    ),
+
+  SignInSuccess: () =>
+    applyDecorators(
+      ApiResponse({
+        status: HttpStatus.OK,
+        description: 'Login successful',
+        schema: {
+          type: 'object',
+          properties: {
+            message: { type: 'string', example: 'Login successful' },
+            code: { type: 'number', example: HttpStatus.OK },
+            data: {
+              type: 'object',
+              properties: {
+                access_token: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIs...' },
+                refresh_token: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIs...' },
+              },
+            },
+          },
+        },
+      }),
+    ),
+
+  SignInBadRequest: () =>
+    applyDecorators(
+      ApiResponse({
+        status: HttpStatus.BAD_REQUEST,
+        description: 'Validation failed',
+        schema: {
+          type: 'object',
+          properties: {
+            message: { type: 'string', example: 'Validation failed' },
+            code: { type: 'number', example: HttpStatus.BAD_REQUEST },
+            errors: {
+              type: 'array',
+              items: {
+                type: 'object',
+                oneOf: [
+                  {
+                    properties: {
+                      field: { type: 'string', example: 'email' },
+                      error_code: { type: 'string', example: 'VAL001' },
+                      message: { type: 'string', example: 'Email must be a valid email address' },
+                      details: { type: 'string', example: 'Please provide a valid email address format' },
+                    },
+                  },
+                  {
+                    properties: {
+                      field: { type: 'string', example: 'password' },
+                      error_code: { type: 'string', example: 'VAL002' },
+                      message: { type: 'string', example: 'Password is required' },
+                      details: { type: 'string', example: 'Please provide your password' },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      }),
+    ),
+
+  SignInUnauthorized: () =>
+    applyDecorators(
+      ApiResponse({
+        status: HttpStatus.UNAUTHORIZED,
+        description: 'Invalid credentials or account deactivated',
+        schema: {
+          type: 'object',
+          properties: {
+            message: { type: 'string', example: 'Invalid credentials' },
+            code: { type: 'number', example: HttpStatus.UNAUTHORIZED },
+            error: { type: 'string', example: 'Unauthorized' },
+          },
+        },
+      }),
+    ),
   }
