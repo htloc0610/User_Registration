@@ -19,7 +19,7 @@ export default registerAs(
       migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
       migrationsTableName: 'migrations',
       migrationsRun: false,
-      synchronize: process.env.NODE_ENV === 'development', // Auto-create tables in development
+      synchronize: false, // Disable synchronize for production safety
       extra: {
         max: config.maxConnections,
         ssl: config.sslEnabled ? {

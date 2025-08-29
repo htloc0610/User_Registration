@@ -14,7 +14,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import typeormConfig from './database/typeorm-config.service';
 
 // Entities
-import { User } from './database/entities';
+import * as entities from './database/entities';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { User } from './database/entities';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         ...configService.get('typeorm'),
-        entities: [User],
+        entities: [...Object.values(entities)],
       }),
       inject: [ConfigService],
     }),
