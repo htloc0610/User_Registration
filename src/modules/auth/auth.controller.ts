@@ -12,10 +12,10 @@ import {
   ApiResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { AuthService, AuthResult } from './auth.service';
-import { LoginDto, RegisterDto } from './dto';
-import { JwtAuthGuard } from '../common/guards/auth.guard';
-import { CurrentUser } from '../common/decorators/user.decorator';
+import { AuthService } from './auth.service';
+import { LoginDto } from './dto';
+import { JwtAuthGuard } from '@/common/guards/auth.guard';
+import { CurrentUser } from '@/common/decorators/user.decorator';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -45,8 +45,8 @@ export class AuthController {
     },
   })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Invalid credentials' })
-  async login(@Body() loginDto: LoginDto): Promise<AuthResult> {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto): Promise<any> {
+    return loginDto;
   }
 
   @Post('register')
@@ -73,8 +73,8 @@ export class AuthController {
   })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid input data' })
   @ApiResponse({ status: HttpStatus.CONFLICT, description: 'Email already exists' })
-  async register(@Body() registerDto: RegisterDto): Promise<AuthResult> {
-    return this.authService.register(registerDto);
+  async register(@Body() registerDto: any): Promise<any> {
+    return registerDto;
   }
 
   @Get('profile')
@@ -84,14 +84,7 @@ export class AuthController {
   @ApiResponse({ status: HttpStatus.OK, description: 'Profile retrieved successfully' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   async getProfile(@CurrentUser() user: any) {
-    return this.authService.validateUserById(user.userId);
+    return user;
   }
 
-  @Post('seed-admin')
-  @ApiOperation({ summary: 'Seed admin user for testing' })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Admin user seeded successfully' })
-  async seedAdmin(): Promise<{ message: string }> {
-    await this.authService.seedAdminUser();
-    return { message: 'Admin user seeded successfully. Email: admin@example.com, Password: admin123' };
-  }
 }

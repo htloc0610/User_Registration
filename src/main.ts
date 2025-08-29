@@ -45,10 +45,10 @@ async function bootstrap() {
   // Swagger configuration
   if (process.env.SWAGGER_ENABLED === 'true' || process.env.NODE_ENV !== 'production') {
     const config = new DocumentBuilder()
-      .setTitle(process.env.SWAGGER_TITLE || 'Student API')
-      .setDescription(process.env.SWAGGER_DESCRIPTION || 'Student Management API Documentation')
+      .setTitle(process.env.SWAGGER_TITLE || 'API')
+      .setDescription(process.env.SWAGGER_DESCRIPTION || 'API Documentation')
       .setVersion(process.env.SWAGGER_VERSION || '1.0.0')
-      .addTag(process.env.SWAGGER_TAG || 'student-api')
+      .addTag(process.env.SWAGGER_TAG || 'api-tag')
       .addBearerAuth()
       .build();
     
