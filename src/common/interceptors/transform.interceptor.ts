@@ -8,10 +8,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface Response<T> {
-  statusCode: number;
+  code: number;
   message: string;
   data: T;
-  timestamp: string;
 }
 
 @Injectable()
@@ -22,16 +21,19 @@ export class TransformInterceptor<T>
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
-    const response = context.switchToHttp().getResponse();
-    const statusCode = response.statusCode;
+    const statusCode = context.switchToHttp().getResponse().statusCode;
 
     return next.handle().pipe(
-      map((data) => ({
-        statusCode,
-        message: 'Success',
-        data,
-        timestamp: new Date().toISOString(),
-      })),
+      map((data: any) => {
+        const message = data?.message || 'Success';
+        const result = data?.data !== undefined ? data.data : data;
+
+        return {
+          code:  statusCode,
+          message,
+          data: result,
+        };
+      }),
     );
   }
 }

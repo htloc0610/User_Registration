@@ -27,18 +27,35 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? exception.getResponse()
         : 'Internal server error';
 
-    const errorResponse = {
-      statusCode: status,
-      timestamp: new Date().toISOString(),
-      path: request.url,
-      message: typeof message === 'string' ? message : (message as any).message,
-      error: typeof message === 'object' ? (message as any).error : null,
-    };
+    let errorResponse: any;
+
+    // Check if this is a validation error from our validationExceptionFactory
+    if (exception instanceof HttpException && this.isCustomValidationError(message)) {
+      // Use the custom validation error format
+      errorResponse = {
+        code: status,
+        message: (message as any).message || 'Invalid input data',
+        errors: (message as any).errors || [],
+      };
+    } else {
+      // Handle other types of errors
+      errorResponse = {
+        statusCode: status,
+        timestamp: new Date().toISOString(),
+        path: request.url,
+        message: typeof message === 'string' ? message : (message as any).message,
+        error: typeof message === 'object' ? (message as any).error : null,
+      };
+    }
 
     this.logger.error(
       `${request.method} ${request.url} - ${status} - ${JSON.stringify(errorResponse)}`,
     );
 
     response.status(status).json(errorResponse);
+  }
+
+  private isCustomValidationError(message: any): boolean {
+    return typeof message === 'object' && message.errors && Array.isArray(message.errors);
   }
 }
