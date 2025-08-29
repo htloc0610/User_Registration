@@ -1,41 +1,38 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-
-// Modules
-import { StudentsModule } from './students/students.module';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { DatabaseModule } from './database/database.module';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 
 // Common
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { JwtAuthGuard } from './common/guards/auth.guard';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
 // Config
-import databaseConfig from './config/database.config';
 import appConfig from './config/app.config';
+import { AuthModule } from './modules/auth/auth.module';
+import typeormConfig from './database/typeorm-config.service';
+
+// Entities
+import { User } from './database/entities';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, appConfig],
+      load: [typeormConfig, appConfig],
     }),
-    DatabaseModule,
-    StudentsModule,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        ...configService.get('typeorm'),
+        entities: [User],
+      }),
+      inject: [ConfigService],
+    }),
     AuthModule,
-    UsersModule,
   ],
-  controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
