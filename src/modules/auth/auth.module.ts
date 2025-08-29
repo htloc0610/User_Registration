@@ -6,6 +6,9 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
+import { AuthRepository } from './repository/auth.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '@/database/entities/user.entity';
 
 @Module({
   imports: [
@@ -20,9 +23,10 @@ import { LocalStrategy } from './strategies/local.strategy';
       }),
       inject: [ConfigService],
     }),
+    TypeOrmModule.forFeature([User]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, LocalStrategy],
+  providers: [AuthService, JwtStrategy, LocalStrategy, AuthRepository],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}
