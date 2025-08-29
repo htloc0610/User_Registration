@@ -1,0 +1,22 @@
+{
+  "ALEM01": {
+    "error_code": "ALEM01",
+    "message": "Empty Field",
+    "details": "This field is required and cannot be empty."
+  },
+  "ALEM02": {
+    "error_code": "ALEM02",
+    "message": "Invalid Field",
+    "details": "This field format is invalid."
+  },
+  "ALEM03": {
+    "error_code": "ALEM03", 
+    "message": "Too Short",
+    "details": "This field value is too short."
+  },
+  "ALEM04": {
+    "error_code": "ALEM04",
+    "message": "Too Long",
+    "details": "This field value is too long."
+  }
+}

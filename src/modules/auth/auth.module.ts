@@ -13,7 +13,7 @@ import { LocalStrategy } from './strategies/local.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production',
+        secret: process.env.JWT_SECRET || ' your-super-secret-jwt-key-change-in-production',
         signOptions: {
           expiresIn: process.env.JWT_EXPIRES_IN || '24h',
         },
