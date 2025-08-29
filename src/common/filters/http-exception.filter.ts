@@ -40,11 +40,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
     } else {
       // Handle other types of errors
       errorResponse = {
-        statusCode: status,
-        timestamp: new Date().toISOString(),
-        path: request.url,
+        code: status,
         message: typeof message === 'string' ? message : (message as any).message,
-        error: typeof message === 'object' ? (message as any).error : null,
+        error: typeof message === 'object' ? (message as any).error : "The server encountered an error while processing your request",
       };
     }
 

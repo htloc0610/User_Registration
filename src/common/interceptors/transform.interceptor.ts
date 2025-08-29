@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import snakecaseKeys from 'snakecase-keys';
 
 export interface Response<T> {
   code: number;
@@ -28,11 +29,13 @@ export class TransformInterceptor<T>
         const message = data?.message || 'Success';
         const result = data?.data !== undefined ? data.data : data;
 
-        return {
-          code:  statusCode,
+        const response = {
+          code: statusCode,
           message,
           data: result,
         };
+
+        return snakecaseKeys(response, { deep: true });
       }),
     );
   }

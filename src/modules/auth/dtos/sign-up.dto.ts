@@ -1,7 +1,33 @@
-import { IsNotEmpty, IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsEmail, IsString, MaxLength, MinLength, registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import * as ERRORS from 'src/utils/constans/error_en.json';
+
+// Custom validator for password complexity
+function IsPasswordComplex(validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      name: 'isPasswordComplex',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      validator: {
+        validate(value: any, args: ValidationArguments) {
+          if (typeof value !== 'string') return false;
+          
+          const hasUpperCase = /[A-Z]/.test(value);
+          const hasNumber = /\d/.test(value);
+          const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
+          
+          return hasUpperCase && hasNumber && hasSpecialChar;
+        },
+        defaultMessage(args: ValidationArguments) {
+          return 'Password must contain at least one uppercase letter, one number, and one special character';
+        },
+      },
+    });
+  };
+}
 
 export class SignUpDTO {
   @ApiProperty({ 
@@ -9,7 +35,8 @@ export class SignUpDTO {
     description: 'First name of the user',
     required: true,
     minLength: 2,
-    maxLength: 50
+    maxLength: 50,
+    name: "first_name"
   })
   @MinLength(2, { context: ERRORS.ALEM03 })
   @MaxLength(50, { context: ERRORS.ALEM04 })
@@ -23,7 +50,8 @@ export class SignUpDTO {
     description: 'Last name of the user',
     required: true,
     minLength: 2,
-    maxLength: 50
+    maxLength: 50,
+    name: "last_name"
   })
   @MinLength(2, { context: ERRORS.ALEM03 })
   @MaxLength(50, { context: ERRORS.ALEM04 })
@@ -44,8 +72,8 @@ export class SignUpDTO {
   email: string;
 
   @ApiProperty({ 
-    example: 'password123', 
-    description: 'Password of the user',
+    example: 'Password123!', 
+    description: 'Password must contain at least one uppercase letter, one number, and one special character',
     required: true,
     minLength: 8
   })
@@ -53,6 +81,7 @@ export class SignUpDTO {
   @IsString({ context: ERRORS.ALEM02 })
   @MinLength(8, { context: ERRORS.ALEM03 })
   @MaxLength(255, { context: ERRORS.ALEM04 })
+  @IsPasswordComplex({ context: ERRORS.PASS01 })
   @Expose({ name: "password" })
   password: string;
 }

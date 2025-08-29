@@ -18,5 +18,10 @@
     "error_code": "ALEM04",
     "message": "Too Long",
     "details": "This field value is too long."
+  },
+  "PASS01": {
+    "error_code": "PASS01",
+    "message": "Password Complexity",
+    "details": "Password must contain at least one uppercase letter, one number, and one special character"
   }
 }
