@@ -5,6 +5,7 @@ import { User } from '../../../database/entities/user.entity';
 import { SignUpDTO } from '../dtos/sign-up.dto';
 import { JwtService } from '@nestjs/jwt';
 import { AuthToken } from '@/database/entities';
+import { SignInResponse } from '../domains/sign-in';
 
 @Injectable()
 export class AuthRepository {
@@ -40,7 +41,7 @@ export class AuthRepository {
     });
   }
 
-  async generateToken(userId: string): Promise<{ accessToken: string; refreshToken: string }> {
+  async generateToken(userId: string): Promise<SignInResponse> {
     const accessToken = this.jwtService.sign({ sub: userId }, { expiresIn: '1h' });
     const refreshToken = this.jwtService.sign({ sub: userId }, { expiresIn: '7d' });
     const tokenEntity = this.tokenRepository.create({

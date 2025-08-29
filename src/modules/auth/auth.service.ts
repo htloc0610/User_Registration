@@ -44,8 +44,8 @@ export class AuthService {
     }
     
     // Generate token
-    const { accessToken, refreshToken } = await this.authRepository.generateToken(user.id);
+    const tokens = await this.authRepository.generateToken(user.id);
 
-    return { accessToken, refreshToken };
+    return tokens;
   }
 }

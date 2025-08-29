@@ -15,22 +15,4 @@ export class AuthMapper {
       user.updatedAt,
     );
   }
-
-  static toSignInResponse(user: User, jwtService: JwtService): SignInResponse {
-    // Generate access token
-    const accessToken = jwtService.sign({
-      sub: user.id,
-      email: user.email,
-      type: 'access'
-    }, { expiresIn: '1h' });
-
-    // Generate refresh token
-    const refreshToken = jwtService.sign({
-      sub: user.id,
-      email: user.email,
-      type: 'refresh'
-    }, { expiresIn: '7d' });
-
-    return new SignInResponse(accessToken, refreshToken);
-  }
 }
