@@ -6,12 +6,36 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import snakecaseKeys from 'snakecase-keys';
 
 export interface Response<T> {
   code: number;
   message: string;
   data: T;
+}
+
+function toSnakeCase(str: string): string {
+  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+}
+
+function convertKeysToSnakeCase(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map((item) => convertKeysToSnakeCase(item));
+  } else if (obj !== null && typeof obj === 'object') {
+    const newObj: any = {};
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        const value = obj[key];
+
+        if (value instanceof Date) {
+          newObj[toSnakeCase(key)] = value.toISOString();
+        } else {
+          newObj[toSnakeCase(key)] = convertKeysToSnakeCase(value);
+        }
+      }
+    }
+    return newObj;
+  }
+  return obj;
 }
 
 @Injectable()
@@ -35,7 +59,7 @@ export class TransformInterceptor<T>
           data: result,
         };
 
-        return snakecaseKeys(response, { deep: true });
+        return convertKeysToSnakeCase(response);
       }),
     );
   }
