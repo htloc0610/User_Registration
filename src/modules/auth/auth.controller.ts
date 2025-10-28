@@ -7,13 +7,13 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { AuthDoc } from '@/modules/auth/constants/auth-doc.constants';
+import { AuthDoc } from './constants/auth-doc.constants';
 import { SignUpDTO } from './dtos/sign-up.dto';
 import { SignInDTO } from './dtos/sign-in.dto';
-import { IResponse } from '@/utils/types/response.type';
+import { IResponse } from '../../utils/types/response.type';
 import { SignUpResponse } from './domains/sign-up';
 import { SignInResponse } from './domains/sign-in';
-import { successResponse } from '@/utils/helpers/response.helper';
+import { successResponse } from '../../utils/helpers/response.helper';
 import { AUTH_CONSTANT } from './constants/auth.constant';
 
 @ApiTags('Authentication')
