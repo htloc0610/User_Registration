@@ -23,7 +23,7 @@ async function bootstrap() {
   });
 
   // Global prefix
-  app.setGlobalPrefix(process.env.API_PREFIX || 'api');
+  app.setGlobalPrefix(process.env.API_PREFIX || '');
 
   // Global pipes
   app.useGlobalPipes(

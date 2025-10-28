@@ -17,7 +17,7 @@ import { successResponse } from '@/utils/helpers/response.helper';
 import { AUTH_CONSTANT } from './constants/auth.constant';
 
 @ApiTags('Authentication')
-@Controller('auth')
+@Controller('user')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
