@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from '../../../database/entities/user.entity';
 import { SignUpDTO } from '../dtos/sign-up.dto';
 import { JwtService } from '@nestjs/jwt';
-import { AuthToken } from '@/database/entities';
+import { AuthToken } from '../../../database/entities/auth-token.entity';
 import { SignInResponse } from '../domains/sign-in';
 
 @Injectable()
