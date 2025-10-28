@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsEmail, IsString, MaxLength, MinLength, registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import * as ERRORS from 'src/utils/constans/error_en.json';
+import * as ERRORS from '../../../utils/constans/error_en.json';
 
 // Custom validator for password complexity
 function IsPasswordComplex(validationOptions?: ValidationOptions) {
