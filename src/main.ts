@@ -6,7 +6,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import helmet from 'helmet';
-import * as compression from 'compression';
+import compression from 'compression'
 import { validationExceptionFactory } from './common/filters/validation-exception.filter';
 
 async function bootstrap() {
