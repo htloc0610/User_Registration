@@ -81,7 +81,6 @@ export class SignUpDTO {
   @IsString({ context: ERRORS.ALEM02 })
   @MinLength(8, { context: ERRORS.ALEM03 })
   @MaxLength(255, { context: ERRORS.ALEM04 })
-  @IsPasswordComplex({ context: ERRORS.PASS01 })
   @Expose({ name: "password" })
   password: string;
 }
