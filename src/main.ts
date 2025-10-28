@@ -18,7 +18,7 @@ async function bootstrap() {
 
   // CORS
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: 'https://registration-fe-two.vercel.app',
     credentials: process.env.CORS_CREDENTIALS === 'true' || true,
   });
 
