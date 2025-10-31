@@ -1,8 +1,7 @@
 
 import { User } from '../../../database/entities/user.entity';
 import { SignUpResponse } from '../domains/sign-up';
-import { SignInResponse } from '../domains/sign-in';
-import { JwtService } from '@nestjs/jwt';
+import { UserInfoResponse } from '../domains/user-info';
 
 export class AuthMapper {
   static toSignUpResponse(user: User): SignUpResponse {
@@ -13,6 +12,14 @@ export class AuthMapper {
       user.email,
       user.createdAt,
       user.updatedAt,
+    );
+  }
+  static toUserInfoResponse(user: User): UserInfoResponse {
+    return new UserInfoResponse(
+      user.id,
+      user.firstName,
+      user.lastName,
+      user.email,
     );
   }
 }

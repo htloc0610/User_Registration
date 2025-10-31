@@ -3,6 +3,72 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 // Auth Module Documentation Decorators
 export const AuthDoc = {
+  // Refresh Token Endpoint
+  RefreshTokenSummary: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: 'Refresh Token',
+        description: 'Refresh access token',
+      }),
+    ),
+  RefreshTokenSuccess: () =>
+    applyDecorators(
+      ApiResponse({
+        status: HttpStatus.OK,
+        description: 'Access token refreshed successfully',
+      }),
+    ),
+  RefreshTokenBadRequest: () =>
+    applyDecorators(
+      ApiResponse({
+        status: HttpStatus.BAD_REQUEST,
+        description: 'Validation failed',
+      }),
+    ),
+  RefreshTokenUnauthorized: () =>
+    applyDecorators(
+      ApiResponse({
+        status: HttpStatus.UNAUTHORIZED,
+        description: 'Unauthorized',
+      }),
+    ),
+  // Info Endpoint
+  InfoSummary: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: 'User Info',
+        description: 'Get user information',
+      }),
+    ),
+  InfoSuccess: () =>
+    applyDecorators(
+      ApiResponse({
+        status: HttpStatus.OK,
+        description: 'User information retrieved successfully',
+      }),
+    ),
+  InfoBadRequest: () =>
+    applyDecorators(
+      ApiResponse({
+        status: HttpStatus.BAD_REQUEST,
+        description: 'Validation failed',
+      }),
+    ),
+  InfoUnauthorized: () =>
+    applyDecorators(
+      ApiResponse({
+        status: HttpStatus.UNAUTHORIZED,
+        description: 'Unauthorized',
+      }),
+    ),
+  // Logout Endpoint
+  LogoutSummary: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: 'User Logout',
+        description: 'Logout user and clear authentication tokens',
+      }),
+    ),
   // Registration Endpoint
   RegisterSummary: () =>
     applyDecorators(

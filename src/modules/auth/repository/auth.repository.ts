@@ -62,4 +62,45 @@ export class AuthRepository {
     });
     return count > 0;
   }
+
+  async findById(userId: string): Promise<User | null> {
+    return this.userRepository.findOne({
+      where: { id: userId },
+    });
+  }
+
+  async findByRefreshToken(refreshToken: string): Promise<AuthToken | null> {
+    return this.tokenRepository.findOne({
+      where: { 
+        refreshToken: refreshToken,
+        revoked: false,
+      },
+      relations: ['user'],
+    });
+  }
+
+  async revokeToken(tokenId: number): Promise<void> {
+    await this.tokenRepository.update(
+      { id: tokenId },
+      { revoked: true }
+    );
+  }
+
+  async updateToken(oldTokenId: number, userId: string): Promise<SignInResponse> {
+    const accessToken = this.jwtService.sign({ sub: userId }, { expiresIn: '1h' });
+    const refreshToken = this.jwtService.sign({ sub: userId }, { expiresIn: '7d' });
+    
+    await this.tokenRepository.update(
+      { id: oldTokenId },
+      {
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
+        refreshExpiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        revoked: false,
+      }
+    );
+
+    return { accessToken, refreshToken };
+  }
 }
