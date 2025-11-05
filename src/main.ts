@@ -16,9 +16,12 @@ async function bootstrap() {
   app.use(helmet());
   app.use(compression());
 
+  const corsOrigin = process.env.CORS_ORIGIN || '';
+  console.log('corsOrigin', corsOrigin);
+
   // CORS
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'https://registration-fe-two.vercel.app',
+    origin: corsOrigin,
     credentials: process.env.CORS_CREDENTIALS === 'true' || true,
   });
 
