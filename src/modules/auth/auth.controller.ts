@@ -21,8 +21,8 @@ import { SignUpResponse } from './domains/sign-up';
 import { successResponse } from '../../utils/helpers/response.helper';
 import { AUTH_CONSTANT } from './constants/auth.constant';
 import { User } from '../../database/entities/user.entity';
-import { CurrentUser } from '@/common/decorators/user.decorator';
 import { UserInfoResponse } from './domains/user-info';
+import { CurrentUser } from '../../common/decorators/user.decorator';
 
 @ApiTags('Authentication')
 @Controller('user')
