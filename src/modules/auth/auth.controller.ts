@@ -48,7 +48,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async signIn(@Body() signInDto: SignInDTO, @Res() res: Response): Promise<void> {
     const { accessToken, refreshToken } = await this.authService.signIn(signInDto);
-    res.cookie('accessToken', accessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 1000 * 60 * 60 * 24 });
+    res.cookie('accessToken', accessToken, { httpOnly: false, secure: process.env.NODE_ENV === 'production', maxAge: 1000 * 60 * 60 * 24 });
     res.status(HttpStatus.OK).json(successResponse(AUTH_CONSTANT.LOGIN_SUCCESS, HttpStatus.OK, { accessToken, refreshToken }));
   }
 
@@ -68,7 +68,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async refreshToken(@Body() refreshTokenDto: RefreshTokenDTO, @Res() res: Response): Promise<void> {
     const { accessToken, refreshToken } = await this.authService.refreshToken(refreshTokenDto.refreshToken);
-    res.cookie('accessToken', accessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 1000 * 60 * 60 * 24 });
+    res.cookie('accessToken', accessToken, { httpOnly: false, secure: process.env.NODE_ENV === 'production', maxAge: 1000 * 60 * 60 * 24 });
     res.status(HttpStatus.OK).json(successResponse(AUTH_CONSTANT.REFRESH_TOKEN_SUCCESS, HttpStatus.OK, { accessToken, refreshToken }));
   }
 
